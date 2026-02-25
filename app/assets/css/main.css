@@ -162,16 +162,6 @@ button {
   background-clip: text;
 }
 
-.hero__orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.4;
-  animation: float 8s ease-in-out infinite;
-  will-change: transform;
-  contain: layout style;
-}
-
 .sr-only {
   position: absolute;
   width: 1px;

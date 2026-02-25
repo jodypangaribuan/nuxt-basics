@@ -56,6 +56,7 @@
   background: radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%);
   pointer-events: none;
   animation: pulse-glow 4s ease-in-out infinite;
+  will-change: opacity;
 }
 
 .cta__content {

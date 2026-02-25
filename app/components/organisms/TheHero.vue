@@ -11,6 +11,16 @@ const stats = [
   { value: '50+', label: 'Integrations' },
   { value: '4.9★', label: 'Rating' },
 ]
+
+// Delay animation classes to fix LCP detection
+// (opacity: 0 in animation keyframes hides the h1 from LCP detection)
+const isHydrated = ref(false)
+onMounted(() => {
+  // Use requestAnimationFrame to ensure first paint has occurred
+  requestAnimationFrame(() => {
+    isHydrated.value = true
+  })
+})
 </script>
 
 <template>
@@ -24,7 +34,7 @@ const stats = [
     </div>
 
     <div class="container hero__container">
-      <div class="hero__content animate-fade-in-up">
+      <div :class="['hero__content', { 'animate-fade-in-up': isHydrated }]">
         <AtomsAppBadge variant="accent">
           <AtomsAppIcon name="sparkles" :size="14" />
           Now in Public Beta
@@ -52,7 +62,7 @@ const stats = [
       </div>
 
       <!-- Stats Bar -->
-      <div class="hero__stats animate-fade-in-up delay-3">
+      <div :class="['hero__stats', { 'animate-fade-in-up delay-3': isHydrated }]">
         <MoleculesStatItem
           v-for="stat in stats"
           :key="stat.label"
@@ -87,6 +97,8 @@ const stats = [
   filter: blur(80px);
   opacity: 0.4;
   animation: float 8s ease-in-out infinite;
+  will-change: transform;
+  contain: layout style;
 }
 
 .hero__orb--1 {

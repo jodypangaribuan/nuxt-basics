@@ -67,7 +67,7 @@ const footerLinks = {
             :key="category"
             class="footer__column"
           >
-            <h4 class="footer__column-title">{{ category }}</h4>
+            <p class="footer__column-title" role="heading" aria-level="3">{{ category }}</p>
             <ul class="footer__column-list">
               <li v-for="link in links" :key="link.label">
                 <a :href="link.href" class="footer__link">{{ link.label }}</a>
