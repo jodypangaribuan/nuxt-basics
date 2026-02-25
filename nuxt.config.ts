@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-  devtools: { enabled: true },
+  devtools: { enabled: false },
 
   app: {
     head: {
@@ -34,16 +34,8 @@ export default defineNuxtConfig({
           crossorigin: '',
         },
         {
-          rel: 'preload',
-          as: 'style',
-          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
-          onload: "this.onload=null;this.rel='stylesheet'",
-        },
-        {
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
-          media: 'print',
-          onload: "this.media='all'",
         },
       ],
       htmlAttrs: {
@@ -75,12 +67,33 @@ export default defineNuxtConfig({
 
   // Nitro server optimizations
   nitro: {
-    compressPublicAssets: true,
+    compressPublicAssets: {
+      gzip: true,
+      brotli: true,
+    },
     minify: true,
+    routeRules: {
+      '/**': {
+        headers: {
+          'X-Content-Type-Options': 'nosniff',
+          'X-Frame-Options': 'SAMEORIGIN',
+          'Referrer-Policy': 'strict-origin-when-cross-origin',
+        },
+      },
+    },
   },
 
   // Experimental performance features
   experimental: {
     payloadExtraction: true,
+  },
+
+  // Route rules for caching
+  routeRules: {
+    '/_nuxt/**': {
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    },
   },
 })
