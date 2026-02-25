@@ -34,8 +34,16 @@ export default defineNuxtConfig({
           crossorigin: '',
         },
         {
+          rel: 'preload',
+          as: 'style',
+          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
+          onload: "this.onload=null;this.rel='stylesheet'",
+        },
+        {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap',
+          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
+          media: 'print',
+          onload: "this.media='all'",
         },
       ],
       htmlAttrs: {
@@ -45,4 +53,34 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.css'],
+
+  // Build-time optimizations
+  vite: {
+    build: {
+      cssMinify: true,
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+        },
+      },
+      rollupOptions: {
+        output: {
+          manualChunks: undefined,
+        },
+      },
+    },
+  },
+
+  // Nitro server optimizations
+  nitro: {
+    compressPublicAssets: true,
+    minify: true,
+  },
+
+  // Experimental performance features
+  experimental: {
+    payloadExtraction: true,
+  },
 })
